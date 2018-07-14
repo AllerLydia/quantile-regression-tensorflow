@@ -156,7 +156,7 @@ class QuantileLoss(nn.Module):
         return loss
 
 
-# In[21]:
+# In[6]:
 
 
 class Learner:
@@ -201,7 +201,7 @@ class Learner:
         return self.model(torch.from_numpy(x).to(self.device).requires_grad_(False)).cpu().detach().numpy()
 
 
-# In[22]:
+# In[7]:
 
 
 # Instantiate model
@@ -213,7 +213,7 @@ learner = Learner(model, partial(torch.optim.Adam, weight_decay=1e-6), loss_func
 
 # ## Train the Model
 
-# In[23]:
+# In[8]:
 
 
 # Run training
@@ -221,7 +221,7 @@ epochs = 10000
 learner.fit(X, y, epochs, batch_size=10)
 
 
-# In[24]:
+# In[9]:
 
 
 # Make the prediction on the meshed x-axis
@@ -246,21 +246,21 @@ plt.legend(loc='upper left')
 plt.show()
 
 
-# In[25]:
+# In[10]:
 
 
 predictions = learner.predict(X)
 np.mean(predictions[:, 0]), np.mean(predictions[:, 1]), np.mean(predictions[:, 2])
 
 
-# In[28]:
+# In[11]:
 
 
 in_the_range = np.sum((y >= predictions[:, 0]) & (y <= predictions[:, 2]))
 print("Percentage in the range (expecting 90%):", in_the_range / len(y) * 100)
 
 
-# In[29]:
+# In[12]:
 
 
 out_of_the_range = np.sum((y < predictions[:, 0]) | (y > predictions[:, 2]))
@@ -269,7 +269,7 @@ print("Percentage out of the range (expecting 10%):", out_of_the_range / len(y) 
 
 # ## MC Prediction
 
-# In[33]:
+# In[13]:
 
 
 K = 5000
@@ -280,13 +280,13 @@ for k in range(K):
 y_lower, y_pred, y_upper = np.percentile(tmp, (5, 50, 95), axis=0)    
 
 
-# In[34]:
+# In[14]:
 
 
 y_lower[1], y_pred[1], y_upper[1]
 
 
-# In[35]:
+# In[15]:
 
 
 # Plot the function, the prediction and the 90% confidence interval based on
