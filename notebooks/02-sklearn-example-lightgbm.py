@@ -51,9 +51,9 @@ X.shape, y.shape, xx.shape
 
 # model parameters
 LEARNING_RATE = 0.1
-N_ESTIMATORS = 100
-MAX_DEPTH = -1
-NUM_LEAVES = 31 # lgbm only
+N_ESTIMATORS = 500
+MAX_DEPTH = 6
+NUM_LEAVES = 128 # lgbm only
 OBJECTIVE = 'quantile' # lgbm only, 'quantile' or 'quantile_l2'
 REG_SQRT = True # lgbm only
 
@@ -100,7 +100,9 @@ def plot(y_pred, y_upper, y_lower, frac_above_upper, frac_below_lower):
 
 if MAX_DEPTH < 0:  # sklearn grows differently than lgbm.
     print('Max Depth specified is incompatible with sklearn. Changing to 3.')
-    SK_MAX_DEPTH = 3
+    SK_MAX_DEPTH = 5
+else:
+    SK_MAX_DEPTH = MAX_DEPTH - 1
 
 
 # ### Upper Bound
@@ -180,6 +182,7 @@ clfh = lgb.LGBMRegressor(objective = OBJECTIVE,
                         num_leaves = NUM_LEAVES,
                         learning_rate = LEARNING_RATE,
                         n_estimators = N_ESTIMATORS,
+                        min_data_in_leaf=5,
                         reg_sqrt = REG_SQRT,
                         max_depth = MAX_DEPTH)
 clfh.fit(X, y)
@@ -195,6 +198,7 @@ clfl = lgb.LGBMRegressor(objective = OBJECTIVE,
                         num_leaves = NUM_LEAVES,
                         learning_rate = LEARNING_RATE,
                         n_estimators = N_ESTIMATORS,
+                        min_data_in_leaf=5,
                         reg_sqrt = REG_SQRT,
                         max_depth = MAX_DEPTH)
 clfl.fit(X, y)
@@ -209,6 +213,7 @@ clf = lgb.LGBMRegressor(objective = "regression_l1",
                         num_leaves = NUM_LEAVES,
                         learning_rate = LEARNING_RATE,
                         n_estimators = N_ESTIMATORS,
+                        min_data_in_leaf=5,
                         reg_sqrt = REG_SQRT,
                         max_depth = MAX_DEPTH)
 clf.fit(X, y)

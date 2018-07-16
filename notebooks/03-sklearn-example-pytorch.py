@@ -299,7 +299,7 @@ plt.plot(xx, y_upper, 'k-')
 plt.plot(xx, y_lower, 'k-')
 plt.fill(np.concatenate([xx, xx[::-1]]),
          np.concatenate([y_upper, y_lower[::-1]]),
-         alpha=.5, fc='b', ec='None', label='90% prediction interval')
+         alpha=.5, fc='b', ec='None', label='90% credible interval')
 plt.xlabel('$x$')
 plt.ylabel('$f(x)$')
 plt.ylim(-10, 20)

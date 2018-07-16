@@ -249,7 +249,7 @@ y_lower, y_pred, y_upper = np.percentile(tmp, (5, 50, 95), axis=0)
 y_lower[1], y_pred[1], y_upper[1]
 
 
-# In[13]:
+# In[18]:
 
 
 # Plot the function, the prediction and the 90% confidence interval based on
@@ -262,7 +262,7 @@ plt.plot(xx, y_upper, 'k-')
 plt.plot(xx, y_lower, 'k-')
 plt.fill(np.concatenate([xx, xx[::-1]]),
          np.concatenate([y_upper, y_lower[::-1]]),
-         alpha=.5, fc='b', ec='None', label='90% prediction interval')
+         alpha=.5, fc='b', ec='None', label='90% credible interval')
 plt.xlabel('$x$')
 plt.ylabel('$f(x)$')
 plt.ylim(-10, 20)
@@ -270,7 +270,7 @@ plt.legend(loc='upper left')
 plt.show()
 
 
-# In[14]:
+# In[19]:
 
 
 tmp = np.zeros((K, X.shape[0])).astype("float32")
@@ -281,24 +281,16 @@ predictions = np.percentile(tmp, (5, 50, 95), axis=0)
 np.mean(predictions[0]), np.mean(predictions[1]), np.mean(predictions[2])
 
 
-# In[15]:
+# In[23]:
 
 
 in_the_range = np.sum((y >= predictions[0]) & (y <= predictions[2]))
-print("Percentage in the range (expecting 90%):", in_the_range / len(y) * 100)
+print("Percentage in the range:", in_the_range / len(y) * 100)
 
 
-# In[16]:
+# In[24]:
 
 
 out_of_the_range = np.sum((y < predictions[0]) | (y > predictions[2]))
-print("Percentage out of the range (expecting 10%):", out_of_the_range / len(y)  * 100)
-
-
-# In[17]:
-
-
-truncate = (X[:, 0] >= 4) & (X[:, 0] <= 6)
-in_the_range = np.sum((y[truncate] >= predictions[0][truncate]) & (y[truncate] <= predictions[2][truncate]))
-print("Percentage in the range (expecting 90%):", in_the_range / len(y[truncate]) * 100)
+print("Percentage out of the range:", out_of_the_range / len(y)  * 100)
 
